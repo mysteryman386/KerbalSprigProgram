@@ -4,7 +4,7 @@
 #include <SPI.h>
 #include <string.h>
 #include "KerbalSimpit.h"
-#include <Classes.h>
+
 
 
 //SPRIG PIN DEFINITIONS
