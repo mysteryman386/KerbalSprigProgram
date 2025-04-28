@@ -6,10 +6,10 @@
 #define TFT_RST 26
 #define TFT_DC 22
 #define TFT_BACKLIGHT 17
-Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_RST); 
-/////////////////
+Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_RST);
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class screenHandler {
+class screenHandler { //Screenhandler class. These functions handle the higher level aspects of manipulating the screen.
 private:
   bool backlightState = false;
   bool drawState = false;
@@ -17,8 +17,9 @@ private:
   float surfaceAltitude;
   float vesselApoapsis;
   float vesselPeriapsis;
+  unsigned long previousMillis = 0;
 public:
-  void updateFloatInfo(int selection, float newData) {//This function updates float based info, and plugs it into the private variable.
+  void updateFloatInfo(int selection, float newData) {  //This function updates float based info, and plugs it into the private variables. selection = 0 manipulates vertical velocity, selection = 1 manipulates surface altitude, 2 maipulates apoapsis, 3 manipulates periapsis.
     switch (selection) {
       case 0:
         verticalVelocity = newData;
@@ -34,7 +35,7 @@ public:
         break;
     }
   }
-  float getFloatInfo(int selection) {//This retrieves info from the private variables. Only use this for display purposes, as this may cause some issues.
+  float getFloatInfo(int selection) {  //This retrieves info from the private variables. same selection choice as the updateFloatInfo functions.
     switch (selection) {
       case 0:
         return verticalVelocity;
@@ -52,8 +53,8 @@ public:
     return NULL;
   }
 
-  void startScreen() { //This starts the screen
-    pinMode(TFT_BACKLIGHT, OUTPUT);  // Backlight
+  void startScreen() { //This function handles the startup function of the tft screen.
+    pinMode(TFT_BACKLIGHT, OUTPUT); 
     tft.initR(INITR_BLACKTAB);
     digitalWrite(TFT_BACKLIGHT, HIGH);
     backlightState = true;
@@ -63,7 +64,7 @@ public:
     tft.setTextColor(ST77XX_WHITE, ST77XX_BLACK);
     tft.setTextWrap(true);
   }
-  void toggleBacklight() {
+  void toggleBacklight() { //When called, this function either disables or enables the backlight, depending on current backlight status.
     if (backlightState == false) {
       digitalWrite(TFT_BACKLIGHT, HIGH);
       backlightState = true;
@@ -72,7 +73,7 @@ public:
       backlightState = false;
     }
   }
-  void showStats(String message) {
+  void showStats(String message, bool secondControls) { //This function wipes the screen, and shows statistics on the screen. It also shows custom messages that may be handy to the end user, using the Message variable.
     tft.fillScreen(ST77XX_BLACK);
     tft.setCursor(0, 0);
     tft.println(message);
@@ -82,12 +83,20 @@ public:
     tft.println("m above surface");
     tft.print(vesselApoapsis);
     tft.println("m Apoapsis");
-    if (vesselPeriapsis <= 0){
+    if (vesselPeriapsis <= 0) {
       tft.print("0");
-    }
-    else{
-    tft.print(vesselPeriapsis);
+    } else {
+      tft.print(vesselPeriapsis);
     }
     tft.println("m Periapsis");
+    tft.print("Second Controls = ");
+    tft.println(secondControls);
+  }
+  void syncScreen(long syncInterval, bool secondControls) { //This function calls the showStats() function every x milliseconds. This is determined by the syncInterval() variable.
+    unsigned long currentMillis = millis();
+    if (currentMillis - previousMillis >= syncInterval) {
+      showStats(" ", secondControls);
+      previousMillis = currentMillis;
+    }
   }
 };
