@@ -1,3 +1,14 @@
+/*
+    Kerbal Sprig Program V3
+    buttonHandler.h
+
+    This header file contains code for button handling, all encapsulated in a neat class
+
+    This Version Created 28/04/2025
+    By Wilmer Zhang
+
+*/
+
 #include <Arduino.h>
 class ButtonHandler {
 private:
