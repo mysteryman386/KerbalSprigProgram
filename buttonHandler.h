@@ -8,19 +8,19 @@ private:
   bool debounceState = true;
 
 public:
-  ButtonHandler(int buttonPin) {
+  ButtonHandler(int buttonPin) { //This function initializes the buttons for use, using the buttonPin variable to activate the pullup Resistors.
     pin = buttonPin;
     pinMode(pin, INPUT_PULLUP);
     lastState = digitalRead(pin);
     lastDebounceTime = 0;
   }
 
-  void setDebounceState(bool debounceFlag) {
+  void setDebounceState(bool debounceFlag) { //This function sets the debounce state of a button, allowing debounce to be enabled or disabled
     debounceState = debounceFlag;
   }
 
 
-  bool isPressed() {
+  bool isPressed() { //This function is a bool function that reads the pinstate, and check if it has been set low. If it does, it returns true, else it sets to false. Also contains debounce that prevents accidental repeat presses
     bool currentState = digitalRead(pin);
     if (debounceState == true && currentState == LOW && lastState == HIGH && (millis() - lastDebounceTime) > debounceDelay) {
       lastDebounceTime = millis();
