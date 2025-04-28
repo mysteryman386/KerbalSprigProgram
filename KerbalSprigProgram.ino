@@ -85,15 +85,15 @@ void setup() {  //initial setup, this piece of code runs when the sprig starts.
   rp2040.resumeOtherCore();
 }
 
-void setup1() {
+void setup1() {// Setup for the other core, do not put anything in there.
 }
 
-void loop() {
+void loop() {//Main loop function.
   handleKeyPresses();
   mySimpit.update();
 }
 
-void loop1() {
+void loop1() { //This loop handles the screen update feature. This is all on the other core
   sprigScreen.syncScreen(screenSyncInterval, secondControls);
 }
 
