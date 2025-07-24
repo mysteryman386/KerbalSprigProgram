@@ -10,8 +10,8 @@
 */
 
 #include <Arduino.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_ST7735.h>
+#include <Adafruit_GFX.h>     // Core graphics library
+#include <Adafruit_ST7735.h>  // Hardware-specific library for ST7735
 /////////////////PINS SPECIFIC TO THE SPRIG, DO NOT TOUCH UNLESS YOU ARE ADAPTING THIS TO ANOTHER DEVICE
 constexpr int TFT_CS = 20;
 constexpr int TFT_RST = 26;
@@ -74,8 +74,7 @@ public:
     tft.setCursor(0, 0);
     tft.setTextColor(ST77XX_WHITE, ST77XX_BLACK);
     tft.setTextWrap(true);
-    tft.println("Kerbal Sprig Program activated\n");
-    tft.println("Handshaking.");
+    tft.println("Kerbal Sprig Program initializing\n");
   }
   void toggleBacklight() {  //When called, this function either disables or enables the backlight, depending on current backlight status.
     if (backlightState == false) {
