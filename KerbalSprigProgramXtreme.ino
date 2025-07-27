@@ -4,7 +4,7 @@
 
     This program is an alternate firmware for the Sprig that interfaces with Kerbal Space Program via the Kerbal Simpit mod.
 
-    This Version Modified 27/06/2025
+    This Version Modified 20/06/2025
     By Wilmer Zhang
 
 */
