@@ -4,7 +4,7 @@
 
     This program is an alternate firmware for the Sprig that interfaces with Kerbal Space Program via the Kerbal Simpit mod.
 
-    This Version Modified 20/06/2025
+    This Version Modified 26/07/2025
     By Wilmer Zhang
 
 */
@@ -48,8 +48,8 @@ bool autoAbort = false;
 int lastYaw = 0;
 int lastPitch = 0;
 KerbalSimpit mySimpit(Serial);
-const char *ssid = "PLACEHOLDER";
-const char *password = "PLACEHOLDER";
+const char *ssid = "SPARK-6LHYX5";
+const char *password = "QuickTigerUU38$";
 AsyncWebServer server(80);
 const String authKey = rp2040.getChipID();
 
@@ -68,6 +68,7 @@ ButtonHandler buttons[] = {
   ButtonHandler(KEY_K),
   ButtonHandler(KEY_L)
 };
+
 
 void setup() {  //initial setup, this piece of code runs when the sprig starts.
   Serial.begin(115200);
@@ -144,6 +145,28 @@ void setup() {  //initial setup, this piece of code runs when the sprig starts.
   server.on("/verticalAltitude", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(200, "text/plain", String(verticalAltitude));
   });
+
+  server.on("/stage", HTTP_GET, [](AsyncWebServerRequest *request) {
+    actionBind(STAGE_ACTION, "Staged!");
+    request->send(200, "text/plain", String("responded"));
+  });
+
+  server.on("/rcs", HTTP_GET, [](AsyncWebServerRequest *request) {
+    actionBind(RCS_ACTION, "RCS toggled!");
+    request->send(200, "text/plain", String("responded"));
+  });
+
+  server.on("/gears", HTTP_GET, [](AsyncWebServerRequest *request) {
+    actionBind(GEAR_ACTION, "Gears toggled!");
+    request->send(200, "text/plain", String("responded"));
+  });
+
+   server.on("/brakes", HTTP_GET, [](AsyncWebServerRequest *request) {
+    actionBind(BRAKES_ACTION, "Brakes toggled!");
+    request->send(200, "text/plain", String("responded"));
+  });
+
+
   server.begin();
 }
 
@@ -171,6 +194,7 @@ void abortAction() {  //This function deactivates SAS, and activates the abort a
 
 void actionBind(uint8_t ActionGroup, String message) {  //This function replaces lightAction(), sasAction(), and stageAction() from V1, putting them all into one function that rules them all. ActionGroup is for the actiongroup needed to be set, and message is for the screen popup
   mySimpit.toggleAction(ActionGroup);
+  mySimpit.printToKSP(message, PRINT_TO_SCREEN);
 }
 
 void camMovement(int pitchFactor, int yawFactor) {  //This function rotates the camera in a pitch motion (+ve pitchFactor moves the camera up, -ve pitchFactor moves the camera down) and yaw motion (+ve yawFactor moves the camera right, -ve yawFactor moves the camera left)
@@ -326,7 +350,6 @@ void handleKeyPresses() {  //This function handles key presses, and calls the ap
     }
   }
 }
-
 
 
 //?auth=[unique identifier]E6632C85937C2730
