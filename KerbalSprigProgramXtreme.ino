@@ -48,8 +48,8 @@ bool autoAbort = false;
 int lastYaw = 0;
 int lastPitch = 0;
 KerbalSimpit mySimpit(Serial);
-const char *ssid = "SPARK-6LHYX5";
-const char *password = "QuickTigerUU38$";
+const char *ssid = "PLACEHOLDER";
+const char *password = "PLACEHOLDER";
 AsyncWebServer server(80);
 const String authKey = rp2040.getChipID();
 
@@ -350,6 +350,3 @@ void handleKeyPresses() {  //This function handles key presses, and calls the ap
     }
   }
 }
-
-
-//?auth=[unique identifier]E6632C85937C2730
