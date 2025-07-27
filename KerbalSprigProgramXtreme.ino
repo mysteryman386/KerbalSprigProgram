@@ -48,8 +48,8 @@ bool autoAbort = false;
 int lastYaw = 0;
 int lastPitch = 0;
 KerbalSimpit mySimpit(Serial);
-const char *ssid = "SK-Misc-AP";
-const char *password = "NGSQYEZPS3";
+const char *ssid = "PLACEHOLDER";
+const char *password = "PLACEHOLDER";
 AsyncWebServer server(80);
 const String authKey = rp2040.getChipID();
 
